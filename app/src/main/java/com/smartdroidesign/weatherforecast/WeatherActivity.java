@@ -27,6 +27,9 @@ public class WeatherActivity extends AppCompatActivity {
         setContentView(R.layout.activity_weather);
 
         final String url = BASE_URL + URL_COORD + URL_UNITS + API_TOKEN;
+        // "https://swapi.co/api/people/1/" StarWars API
+        // "https://pokeapi.co/api/v2/pokemon/" Pokemon API
+
 
         final JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
