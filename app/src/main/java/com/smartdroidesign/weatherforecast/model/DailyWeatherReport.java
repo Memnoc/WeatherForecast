@@ -14,14 +14,14 @@ public class DailyWeatherReport {
     private String weather;
     private String formattedDate;
 
-    public DailyWeatherReport(String cityName, String country, int currentTemp, int minTemp, int maxTemp, String weather, String formattedDate) {
+    public DailyWeatherReport(String cityName, String country, int currentTemp, int minTemp, int maxTemp, String weather, String rawDate) {
         this.cityName = cityName;
         this.country = country;
         this.currentTemp = currentTemp;
         this.minTemp = minTemp;
         this.maxTemp = maxTemp;
         this.weather = weather;
-        this.formattedDate = formattedDate;
+        this.formattedDate = rawDateToPretty(rawDate);
     }
 
     public String rawDateToPretty (String rawDate){

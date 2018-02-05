@@ -21,6 +21,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.smartdroidesign.weatherforecast.model.DailyWeatherReport;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +38,7 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
 
     private GoogleApiClient mGoogleApiClient;
     private final int PERMISSION_LOCATION = 111;
+    private ArrayList<DailyWeatherReport> weatherReportList = new ArrayList<>();
 
 
 
@@ -90,6 +92,11 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
                         String weatherType = weather.getString("main");
 
                         String rawDate = obj.getString("dt_txt");
+
+                        DailyWeatherReport report = new DailyWeatherReport(cityName, country, currentTemp.intValue(), maxTemp.intValue(), minTemp.intValue(), weatherType, rawDate);
+                        weatherReportList.add(report);
+
+                        Log.v("JSON", "Printing from class: " + report.getWeather());
 
                     }
 
