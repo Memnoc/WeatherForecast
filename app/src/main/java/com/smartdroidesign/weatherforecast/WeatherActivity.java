@@ -22,7 +22,11 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class WeatherActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, LocationListener {
 
@@ -66,7 +70,42 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
             public void onResponse(JSONObject response) {
                 Log.v("FUN", "RES: " + response.toString());
 
+                try {
+                    JSONObject city = response.getJSONObject("city");
+                    String cityName = city.getString("name");
+                    String country = city.getString("country");
+
+                    JSONArray list = response.getJSONArray("list");
+
+                    for (int i = 0; i < 5; i++) {
+                        JSONObject obj = list.getJSONObject(i);
+                        JSONObject main = obj.getJSONObject("main");
+                        Double currentTemp = main.getDouble("temp");
+                        Double maxTemp = main.getDouble("temp_max");
+                        Double minTemp = main.getDouble("temp_min");
+
+
+                        JSONArray weatherArr = obj.getJSONArray("weather");
+                        JSONObject weather =  weatherArr.getJSONObject(0);
+                        String weatherType = weather.getString("main");
+
+                        String rawDate = obj.getString("dt_txt");
+
+                    }
+
+
+                    Log.v("JSON", "Name: " + cityName + " - " + "country: " + country);
+
+                } catch (JSONException e){
+
+                    Log.v("JSON", "EXC: " + e.getLocalizedMessage());
+
+                }
+
             }
+
+
+
 
 
         }, new Response.ErrorListener() {
