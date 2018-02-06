@@ -11,7 +11,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +34,7 @@ import com.smartdroidesign.weatherforecast.model.DailyWeatherReport;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -51,6 +57,8 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
     private TextView locationTxt;
     private TextView conditionTxt;
 
+    WeatherAdapter adapter;
+
 
 
     @Override
@@ -66,6 +74,15 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
         minTempTxt = findViewById(R.id.minTempTxt);
         locationTxt = findViewById(R.id.locationTxt);
         conditionTxt = findViewById(R.id.conditionTxt);
+
+
+        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.content_weather_report);
+        adapter = new WeatherAdapter(weatherReportList);
+
+        recyclerView.setAdapter(adapter);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
 
 
         mGoogleApiClient  =new GoogleApiClient.Builder(this)
@@ -130,6 +147,7 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
                 }
 
                 updateUI();
+                adapter.notifyDataSetChanged();
 
             }
 
@@ -161,20 +179,6 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
         if(weatherReportList.size() > 0){
             DailyWeatherReport report = weatherReportList.get(0);
 
-            switch (report.getWeather()) {
-                case DailyWeatherReport.WEATHER_TYPE_CLOUDS:
-                    weatherMini.setImageDrawable(getResources().getDrawable(R.drawable.cloudy));
-                    weatherMain.setImageDrawable(getResources().getDrawable(R.drawable.cloudy));
-                    break;
-                case DailyWeatherReport.WEATHER_TYPE_RAIN:
-                    weatherMini.setImageDrawable(getResources().getDrawable(R.drawable.rainy));
-                    weatherMain.setImageDrawable(getResources().getDrawable(R.drawable.rainy));
-                    break;
-                default:
-                    weatherMini.setImageDrawable(getResources().getDrawable(R.drawable.sunny));
-                    weatherMain.setImageDrawable(getResources().getDrawable(R.drawable.sunny));
-
-            }
 
             dateTxt.setText("Today, May 1st");
             currentTempTxt.setText(Integer.toString(report.getCurrentTemp()));
@@ -240,5 +244,73 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
         }
     }
 
+    public class WeatherAdapter extends RecyclerView.Adapter<WeatherReportViewHolder> {
+
+        private ArrayList<DailyWeatherReport> dailyWeatherReports;
+
+        public WeatherAdapter(ArrayList<DailyWeatherReport> dailyWeatherReports) {
+            this.dailyWeatherReports = dailyWeatherReports;
+        }
+
+        @Override
+        public WeatherReportViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View card = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_weather,parent,false);
+            return new WeatherReportViewHolder(card);
+        }
+
+        @Override
+        public int getItemCount() {
+            return dailyWeatherReports.size();
+        }
+
+        @Override
+        public void onBindViewHolder(WeatherReportViewHolder holder, int position) {
+            DailyWeatherReport report = dailyWeatherReports.get(position);
+            holder.updateUI(report);
+
+        }
+    }
+
+    public class WeatherReportViewHolder extends RecyclerView.ViewHolder {
+
+        private ImageView lweatherIcon;
+        private TextView lweatherDate;
+        private TextView lweatherDescription;
+        private TextView ltempHigh;
+        private TextView ltempLow;
+
+
+        public WeatherReportViewHolder(View itemView) {
+            super(itemView);
+
+            lweatherIcon = itemView.findViewById(R.id.list_weather_icon);
+            lweatherDate = itemView.findViewById(R.id.list_weather_day);
+            lweatherDescription = itemView.findViewById(R.id.list_weather_description);
+            ltempHigh = itemView.findViewById(R.id.list_weather_temp_high);
+            ltempLow = itemView.findViewById(R.id.list_weather_temp_low);
+
+        }
+
+       public void updateUI (DailyWeatherReport report){
+
+            lweatherDate.setText(report.getFormattedDate());
+            lweatherDescription.setText(report.getWeather());
+            ltempHigh.setText(Integer.toString(report.getMaxTemp()));
+            ltempLow.setText(Integer.toString(report.getMinTemp()));
+
+           switch (report.getWeather()) {
+               case DailyWeatherReport.WEATHER_TYPE_CLOUDS:
+                   weatherMini.setImageDrawable(getResources().getDrawable(R.drawable.cloudy_mini));
+                   break;
+               case DailyWeatherReport.WEATHER_TYPE_RAIN:
+                   weatherMini.setImageDrawable(getResources().getDrawable(R.drawable.rainy_mini));
+                   break;
+               default:
+                   weatherMini.setImageDrawable(getResources().getDrawable(R.drawable.sunny_mini));
+
+           }
+
+        }
+    }
 
 }

@@ -32,7 +32,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:src="@drawable/sunny_small"
+        android:src="@drawable/sunny"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -60,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="124dp"
-        android:text="78"
+        android:text="78°"
         android:textColor="#FFFFFF"
         android:textSize="85dp"
         android:textStyle="bold"
@@ -73,7 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:text="64"
+        android:text="64°"
         android:textColor="#FFFFFF"
         android:textSize="25dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/maxTempTxt"
@@ -140,6 +140,16 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="20dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/content_weather_report"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </android.support.v7.widget.RecyclerView>
 
 
 
