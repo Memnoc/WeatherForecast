@@ -12,6 +12,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -41,12 +43,30 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
     private final int PERMISSION_LOCATION = 111;
     private ArrayList<DailyWeatherReport> weatherReportList = new ArrayList<>();
 
+    private ImageView weatherMain;
+    private ImageView weatherMini;
+    private TextView dateTxt;
+    private TextView currentTempTxt;
+    private TextView minTempTxt;
+    private TextView locationTxt;
+    private TextView conditionTxt;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
+
+
+        weatherMain = findViewById(R.id.weather_main);
+        weatherMini = findViewById(R.id.weather_logo);
+        dateTxt = findViewById(R.id.dateTxt);
+        currentTempTxt = findViewById(R.id.maxTempTxt);
+        minTempTxt = findViewById(R.id.minTempTxt);
+        locationTxt = findViewById(R.id.locationTxt);
+        conditionTxt = findViewById(R.id.conditionTxt);
+
 
         mGoogleApiClient  =new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
@@ -107,8 +127,9 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
                 } catch (JSONException e){
 
                     Log.v("JSON", "EXC: " + e.getLocalizedMessage());
-
                 }
+
+                updateUI();
 
             }
 
@@ -126,6 +147,42 @@ public class WeatherActivity extends AppCompatActivity implements GoogleApiClien
 
         Volley.newRequestQueue(this).add(jsonRequest);
 
+    }
+
+//    private ImageView weatherMain;
+//    private ImageView weatherMini;
+//    private TextView dateTxt;
+//    private TextView currentTempTxt;
+//    private TextView minTempTxt;
+//    private TextView locationTxt;
+//    private TextView conditionTxt;
+
+    public void updateUI(){
+        if(weatherReportList.size() > 0){
+            DailyWeatherReport report = weatherReportList.get(0);
+
+            switch (report.getWeather()) {
+                case DailyWeatherReport.WEATHER_TYPE_CLOUDS:
+                    weatherMini.setImageDrawable(getResources().getDrawable(R.drawable.cloudy));
+                    weatherMain.setImageDrawable(getResources().getDrawable(R.drawable.cloudy));
+                    break;
+                case DailyWeatherReport.WEATHER_TYPE_RAIN:
+                    weatherMini.setImageDrawable(getResources().getDrawable(R.drawable.rainy));
+                    weatherMain.setImageDrawable(getResources().getDrawable(R.drawable.rainy));
+                    break;
+                default:
+                    weatherMini.setImageDrawable(getResources().getDrawable(R.drawable.sunny));
+                    weatherMain.setImageDrawable(getResources().getDrawable(R.drawable.sunny));
+
+            }
+
+            dateTxt.setText("Today, May 1st");
+            currentTempTxt.setText(Integer.toString(report.getCurrentTemp()));
+            minTempTxt.setText(Integer.toString(report.getMinTemp()));
+            locationTxt.setText(report.getCityName() + ", " + report.getCountry());
+            conditionTxt.setText(report.getWeather());
+
+        }
 
     }
 
