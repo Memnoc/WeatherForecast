@@ -1,4 +1,4 @@
-package com.smartdroidesign.weatherforecast;
+package com.smartdroidesign.weatherforecast.activities;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -21,6 +21,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.smartdroidesign.weatherforecast.R;
 import com.smartdroidesign.weatherforecast.model.DailyWeatherReport;
 
 import org.json.JSONArray;
