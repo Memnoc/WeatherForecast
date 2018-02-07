@@ -1,5 +1,14 @@
 package com.smartdroidesign.weatherforecast.model;
 
+import android.util.Log;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+
 /**
  * Created by mstara on 05/02/2018.
  */
@@ -30,10 +39,17 @@ public class DailyWeatherReport {
         this.formattedDate = rawDateToPretty(rawDate);
     }
 
-    public String rawDateToPretty (String rawDate){
-        // convert raw date into formatted date
-        return "May 1st";
+    // converting time from the epoch format in the end, much easier
+
+    private String rawDateToPretty (String rawDate) {
+        SimpleDateFormat format = new SimpleDateFormat("EEE, MMM, dd", Locale.UK);
+        Long dateLong = 1000*Long.parseLong(rawDate);
+        //int dateLong = Integer.parseInt(rawDate);
+        return format.format(dateLong);
     }
+
+
+
 
     public String getCityName() {
         return cityName;

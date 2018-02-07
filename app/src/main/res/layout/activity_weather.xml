@@ -58,7 +58,7 @@
         android:id="@+id/maxTempTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="124dp"
         android:text="78°"
         android:textColor="#FFFFFF"
@@ -66,7 +66,7 @@
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="32dp" />
+        android:layout_marginLeft="25dp" />
 
     <TextView
         android:id="@+id/minTempTxt"
@@ -94,7 +94,7 @@
     <TextView
         android:id="@+id/locationTxt"
         android:layout_width="wrap_content"
-        android:layout_height="16dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="128dp"
         android:layout_marginStart="8dp"
         android:text="Portland, USA"
@@ -111,14 +111,14 @@
         android:id="@+id/conditionTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="72dp"
-        android:layout_marginRight="72dp"
-        android:layout_marginTop="252dp"
+        android:layout_marginEnd="76dp"
+        android:layout_marginTop="272dp"
         android:text="Clear"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginRight="76dp" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline3"
